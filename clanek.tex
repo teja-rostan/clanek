@@ -5,7 +5,7 @@
 %\documentstyle[nips14submit_09,times,art10]{article} % For LaTeX 2.09
 
 
-\title{Data fusion on convolution networks}
+\title{Convolutional network pruning with matrix factorization}
 %\author{Teja Roštan}
 %\template is for anonymous submission
 
@@ -32,32 +32,80 @@
 \end{abstract}
 
 \section{Introduction}
-Data fusion on convolution neural network, dimensionality and complexity reduction of network.
+Properties of convolutional networks (layers...)... convolutional layers take time, fully connected layers take space (importantly in test time). Pruning of convolutional network. Problems that can be solved with model: generalization, time and storage reduction, better interpretation. Introduction to our model, same-time matrix trifactorization on weights (on covolutional (time) and fully connected (size) layers separately). From almost keeping the performance of convolutional network to improvement of generalization.
 
 \section{Related work}
-Learning both weight and ... 
-parameter reduction, 
-14,15,12,13
-OBD,OBS
-Dropout 19,20,21
-HashedNets 22,23,24
+
+Exploiting Linear Structure Within Convolutional Networks for Efficient Evaluation~\cite{denton2014exploiting} [TIME AND STORAGE REDUCTION, time: on convolutional layers, storage: on fully connected layers, compromise to accuracy, might improve generalization too]
+
+The computation is dominated by the convolution operations in the lower layers of the model. Redundancy can be exploited with linear compression techniques, resulting in significant speedups for the evaluation of trained large scale networks, with minimal compromise to performance. Compressing each convolutional layer by finding an appropriate low-rank approximation, and then fine-tune the upper layers until the prediction performance is restored. Since the vast majority of weights reside in the fully connected layers, compressing only these layers translate into a significant savings. The low-rank  projections effectively decrease number of learnable parameters, suggesting that they might improve generalization ability.
+
+Network In Network~\cite{DBLP:journals/corr/LinCY13} [better interpretation, overfitting reduction]
+
+The conventional convolutional layer uses linear filters followed by a nonlinear activation function to scan the input. Instead, we build micro neural networks with more complex structures to abstract the data within the receptive field. With enhanced local modeling via the micro network, we are able to utilize global average pooling over feature maps in the classification layer, which is easier to interpret and less prone to overfitting than traditional fully connected layers. In traditional CNN, it is difficult to interpret how the category level information from the objective cost layer is passed back to the previous convolution layer due to the fully connected layers which act as a black box in between. In contrast, global average pooling is more meaningful and interpretable as it enforces correspondance between feature maps and categories, which is made possible by a stronger local modeling using the micro network. Furthermore, the fully connected layers are prone to overfitting and heavily depend on dropout regularization, while global average pooling is itself a structural regularizer, which natively prevents overfitting for the overall structure.
+
+Compressing deep convolutional networks using vector quantization~\cite{DBLP:journals/corr/GongLYB14} [storage reduction, possible performance improvement, possible to apply compression on convolutional layers for time reduction]
+
+Compressing the most storage demanding dense connected layers, vector quantization methods have a clear gain over existing matrix factorization methods. Compressing the parameters to reduce storage instead of speeding up the testing time (Denton et al., 2014 [Exploiting Linear Structure Within Convolutional Networks for Efficient Evaluation]~\cite{denton2014exploiting}). For a typical network described in (Zeiler and Fergus, 2013 [Visualizing and understanding convolutional neural networks]~\cite{zeiler2014visualizing}), about 90\% of the storage is taken up by the dense connected layers; more than 90\% of the running time is taken by the convolutional layers. Therefore, we shall focus upon how to compress the dense connected layers to reduce storage of neural networks. Simply applying kmeans-based scalar quantization achieves very impressive results. It will also be interesting to apply fine-tuning to the compressed layers to improve performance. Whereas this paper mainly focused on compressing dense connected layers, it will be interesting to investigate if we can apply the same vector quantization methods to compress convolutional layers.
+
+OBD, OBS, MF pruning
+
+Dropout 
+
+Dropout: A Simple Way to Prevent Neural Networks from Overfitting~\cite{srivastava2014dropout} [generalization improvement, minus: increse off time]
+
+The key idea is to randomly drop units (along with their connections) from the neural network during training. It prevents overfitting and provides a way of approximately combining exponentially many different neural network architectures efficiently. The term dropout refers to dropping out units (hidden and visible) in a neural network. By dropping a unit out, we mean temporarily removing it from the network, along with all its incoming and outgoing connections. One of the drawbacks of dropout is that it increases training time.
+
+Regularization of Neural Networks using DropConnect~\cite{wan2013regularization} [like dropconnect, slower but better generalization]
+
+DropConnect, a generalization of Dropout (Hinton et al., 2012), for regularizing large fully-connected layers within neural networks. DropConnect instead sets a randomly selected subset of weights within the network to zero. Each unit thus receives input from a random subset of units in the previous layer. Current implementation of DropConnect is slightly slower than No-Drop or Dropout, in large models models the feature extractor is the bottleneck, thus there is little difference in overall training time. DropConnect allows us to train large models while avoiding overfitting.
+
+HashedNets [storage reduction, preserving of generalization]
+
+Feature Hashing for Large Scale Multitask Learning~\cite{weinberger2009feature}, Hash Kernels for Structured Data~\cite{shi2009hash}, Compressing Neural Networks with the Hashing Trick~\cite{chen2015compressing}
+
+Hashing is an effective strategy for dimensionality reduction and practical nonparametric estimation. Kernel methods have slow runtime performance if the number of kernel functions used in the expansion is large. Very good generalization performance is reported. The big problem in this approach is that the optimization of the reduced set of vectors is rather nontrivial. HashedNets uses a low-cost hash function to randomly group connection weights into hash buckets, and all connections within the same hash bucket share a single parameter value. These parameters are tuned to adjust to the HashedNets weight sharing architecture with standard backprop during training. HashedNets shrink the storage requirements of neural networks substantially while mostly preserving generalization performance. 
+
 vanishing gradient problem 26
 other models
+
 AlexNet 29
+Memory Bounded Deep Convolutional Networks [increase of generalization~\cite{collins2014memory}, (parameter) storage reduction]
+
+Rather than having a smaller number of complex units, we try to train models that have a constant number of simpler units. This may be a key tool in training deep learning vision models that are meant to be deployed in resource-constrained environments, or to increase the generalizability of existing models. Using sparsity-inducing regularization provides a significantly improved method for reducing the parameters of a model as compared with baselines including reducing the number of units in the network and simple thresholding. An interesting empirical observation we see is that very sparse models manage to do surprisingly well on benchmark image classification tasks. We leverage this not only to construct very simple models, but also to build ensembles of these sparse models that outperform the baseline dense models while still staying within fixed resources.
+
 Deep fried convnets 28
+
+Deep Fried Convnets~\cite{yang2014deep} [(parameter) storage reduction, without sacrificing performace, in theory faster, but  because computation dominated by the convolutions, not visible in practice]
+
+Adaptive Fastfoodtransform to reparameterize the matrix-vector multiplication of fully connected layers. The number of parameters required to represent a deep convolutional neural network can be substantially reduced without sacrificing predictive performance. Our approach works by replacing the fully connected layers of the network with an Adaptive Fastfood transform, which is a generalization of the Fastfood transform for approximating kernels. At test and also at train time. The Fastfood transform allows for a theoretical reduction in computation from O(nd) to O(n log d). However, the computation in convolutional neural networks is dominated by the convolutions, and hence deep fried convnets are not necessarily faster in practice.
 
 tensor train TT NN
 rank 5,18,22
+
+Predicting Parameters in Deep Learning~\cite{denil2013predicting} [parameter (storage) reduction with prediction]
+
+There is significant redundancy in the parametrization of several deep learning models. Given only a few weight values for each feature it is possible to accurately predict the remaining values. Moreover, we show that not only can the parameter values be predicted, but many of them need not be learned at all. We study techniques for reducing the number of free parameters in neural networks by exploiting the fact that the weights in learned networks tend to be structured. Brings into question whether we have the right parameterizations in deep learning.
+
+Maxout Networks~\cite{goodfellow2013maxout} [with dropout, better generalization]
+
+designed to both facilitate optimization by dropout and improve the accuracy of dropout’s fast approximate model averaging technique. uses a new type of activation function: the maxout unit. In a convolutional network, a maxout feature map can be constructed by taking the maximum across k affine feature maps (i.e., pool across channels, in addition spatial locations). Maxout networks learn not just the relationship between hidden units, but also the activation function of each hidden unit. 
+
 hash 3
 lower numerical precision 1,9, fewer parameters 7
 
+Restructuring of Deep Neural Network Acoustic Models with Singular Value Decomposition~\cite{xue2013restructuring} [storage (size) reduction, keeping the performance]
+
+effort on DNN aiming at reducing the model size while keeping the accuracy improvements. We apply singular value decomposition (SVD) on the weight matrices in DNN, and then restructure the model based on the inherent sparseness of the original matrices. After restructuring we can reduce the DNN model size significantly with negligible accuracy loss. We also fine-tune the restructured model using the regular back-propagation method to get the accuracy back when reducing the DNN model size heavily.
+
 
 \section{Method description}
-Pictures... Implementation of same-time matrix trifaktorization on convolution network... Tensor train implementation?, Learning Connections in Addition to Weights?
-retraining
+Collecting the weight matrices from convolutional layers and from fully connected layers, perform pruning (description of pruning with same-time matrix trifactorization), setting the pruned weights to zero, tuning the parameters with iterations after pruning.
 
 \section{Experiments}
-Description and preparation of datasets, parameters, results, analysis. (mnist, imageNet, CIFAR)
+Description and preparation of datasets, parameters, results, analysis.
+Datasets: mnist, imageNet, CIFAR
+Convnets: classical, alexnet, deep fried nets?
 
 
 \section{Discussion and conclusion}
@@ -69,7 +117,8 @@ Description and preparation of datasets, parameters, results, analysis. (mnist, 
 
 
 \subsubsection*{References}
-
+\bibliography{literature}
+\bibliographystyle{plain}
 %\small{
 %[1] Alexander, J.A. \& Mozer, M.C. (1995) Template-basedalgorithms
 %for connectionist rule extraction. In G. Tesauro, D. S. Touretzky
