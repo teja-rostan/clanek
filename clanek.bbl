@@ -29,35 +29,11 @@ Yunchao Gong, Liu Liu, Ming Yang, and Lubomir~D. Bourdev.
 \newblock Compressing deep convolutional networks using vector quantization.
 \newblock {\em CoRR}, abs/1412.6115, 2014.
 
-\bibitem{goodfellow2013maxout}
-Ian~J Goodfellow, David Warde-Farley, Mehdi Mirza, Aaron Courville, and Yoshua
-  Bengio.
-\newblock Maxout networks.
-\newblock {\em arXiv preprint arXiv:1302.4389}, 2013.
-
-\bibitem{DBLP:journals/corr/LinCY13}
-Min Lin, Qiang Chen, and Shuicheng Yan.
-\newblock Network in network.
-\newblock {\em CoRR}, abs/1312.4400, 2013.
-
 \bibitem{shi2009hash}
 Qinfeng Shi, James Petterson, Gideon Dror, John Langford, Alex Smola, and SVN
   Vishwanathan.
 \newblock Hash kernels for structured data.
 \newblock {\em The Journal of Machine Learning Research}, 10:2615--2637, 2009.
-
-\bibitem{srivastava2014dropout}
-Nitish Srivastava, Geoffrey Hinton, Alex Krizhevsky, Ilya Sutskever, and Ruslan
-  Salakhutdinov.
-\newblock Dropout: A simple way to prevent neural networks from overfitting.
-\newblock {\em The Journal of Machine Learning Research}, 15(1):1929--1958,
-  2014.
-
-\bibitem{wan2013regularization}
-Li~Wan, Matthew Zeiler, Sixin Zhang, Yann~L Cun, and Rob Fergus.
-\newblock Regularization of neural networks using dropconnect.
-\newblock In {\em Proceedings of the 30th International Conference on Machine
-  Learning (ICML-13)}, pages 1058--1066, 2013.
 
 \bibitem{weinberger2009feature}
 Kilian Weinberger, Anirban Dasgupta, John Langford, Alex Smola, and Josh
