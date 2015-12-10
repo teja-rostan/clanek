@@ -49,23 +49,32 @@ taken by the convolutional layers~\cite{zeiler2014visualizing}. In
 article~\cite{denil2013predicting} they said that giving only a few weight 
 values for each feature it is possible to accurately predict the remaining 
 values while many of them do not need to be learned at all. They exploited the 
-fact that the weights in learned networks tend to be structured. Because there 
+fact that the weights in learned networks tend to be sparse and structured. 
+Because there 
 is significant redundancy in the parametrization of networks, many researchers 
 found solutions to compress them and fine-tune the compressed layers to recover 
 the performance. 
 
 
 Running time complexity is depended from the computation which is dominated by 
-convolution operations in the lower layers of the model. One way to reduce the 
-time complexity is to perform convolutions as products in the Fourier domain, 
-and reuse transformed feature maps~\cite{mathieu2013fast}. By computing the 
-Fourier transforms of the matrices in each set, the convolutions efficiently 
-performes as pairwise products. More can be done by exploiting the redundany 
+convolution operations in the lower layers of the model. In contrast to model 
+size compression, fewer approaches focused on reducing the time complexity. One 
+of the earlier approaches of reducing the 
+time complexity is FFT algorithm~\cite{mathieu2013fast} which by computing the 
+Fourier transforms of the matrices in each set efficiently performs convolutions 
+as pairwise products. Main disadvantage of this approach is that in current 
+implementation of the FFT algorithm, input images which
+are not a power of 2 must be padded to the next highest power. In newer 
+researches they exploit the redundancy 
 that exists between different feature channels and filters. In 
-article~\cite{jaderberg2014speeding} they used filter banks. With this solution 
-the CNNs are obtained by stacking multiple layers of convolutional filter banks 
-on top of each other, followed by a non-linear response function times. 
-Alternatively in article~\cite{denton2014exploiting} they compressed each 
+articles~\cite{jaderberg2014speeding, rigamonti2013learning} they use an
+intuition that CNN filter banks can be approximated using a low rank basis of
+filters that are separable in the spatial domain where 
+in~\cite{jaderberg2014speeding}
+substantial speedups can be achieved by also exploiting the cross-channel 
+redundancy to perform low-rank decomposition in the
+channel dimension as well. Alternatively in article~\cite{denton2014exploiting} 
+they compressed each 
 convolutional layer by finding an appropriate low-rank approximation with 
 considering several elementary tensor decompositions based on singular value 
 decompositions, as well as filter clustering methods to take advantage of 
@@ -80,28 +89,36 @@ low-rank matrix factorization methods~\cite{bondarenko2014artificial,
 schmidhuber2015deep, sainath2013low}. Network pruning has been used both to 
 reduce model size and to reduce over-fitting~\cite{han2015learning}. 
 State-of-the-art approaches are Optimal Brain Damage~\cite{lecun1989optimal} and 
-Optimal Brain Surgeon~\cite{hassibi1993optimal}. Beside neural network pruning 
-with matrix factorization other alternatives were presented where in~\cite{ 
-DBLP:journals/corr/GongLYB14}, they used vector quantization methods for which 
-they said have a clear gain over existing matrix factorization methods. Another 
-alternative is application of singular value decomposition (SVD) on the weight 
+Optimal Brain Surgeon~\cite{hassibi1993optimal}. 
+
+Beside neural network pruning 
+with matrix factorization other alternatives were presented where 
+in~\cite{DBLP:journals/corr/GongLYB14}, they used vector quantization methods 
+for which 
+they said have a clear gain over existing matrix factorization methods. 
+Alternative is application of singular value decomposition (SVD) on the weight 
 matrices~\cite{xue2013restructuring}. A simple solution to reduce the model size 
 and preserve the generalization ability is to train models that have a constant 
-number of simpler neurons and was presented in article~\cite{collins2014memory} 
-or by removing all connections whose weight is lower than a 
-threshold~\cite{han2015learning}. First phase learns which connections are 
+number of simpler neurons which was presented in 
+article~\cite{collins2014memory}.
+Replacing  the fully connected layers of the network with an Adaptive Fastfood 
+transform is introduced in article~\cite{yang2014deep}, and results 
+in a deep fried convnet. The Fastfood transform allows for a theoretical 
+reduction in computation also. However, the computation in convolutional neural 
+networks is dominated by the convolutions, and hence the deep fried convnets are 
+not necessarily faster in practice.
+
+Removing all connections whose weight is lower than a 
+threshold is introduced in~\cite{han2015learning}. There the first phase learns 
+which connections are 
 important and removes the unimportant ones using multiple iterations. Hashing is 
 also an effective strategy for dimensionality reduction while preserving 
 generalization performance~\cite{weinberger2009feature, shi2009hash}. The 
 strategy used on neural networks named HashedNets~\cite{chen2015compressing} 
 uses a low-cost hash function to randomly group connection weights into hash 
 buckets where all connection inside share a single and tuned parameter value.  
-Another solution is in article~\cite{yang2014deep} where they replaced the fully 
-connected layers of the network with an Adaptive Fastfood transform, resulting 
-in a deep fried convnet. The Fastfood transform allows for a theoretical 
-reduction in computation also. However, the computation in convolutional neural 
-networks is dominated by the convolutions, and hence the deep fried convnets are 
-not necessarily faster in practice. 
+ 
+
 
 
 

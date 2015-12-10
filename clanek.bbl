@@ -63,6 +63,12 @@ Michael Mathieu, Mikael Henaff, and Yann LeCun.
 \newblock Fast training of convolutional networks through ffts.
 \newblock {\em arXiv preprint arXiv:1312.5851}, 2013.
 
+\bibitem{rigamonti2013learning}
+Roberto Rigamonti, Amos Sironi, Vincent Lepetit, and Pascal Fua.
+\newblock Learning separable filters.
+\newblock In {\em Computer Vision and Pattern Recognition (CVPR), 2013 IEEE
+  Conference on}, pages 2754--2761. IEEE, 2013.
+
 \bibitem{sainath2013low}
 Tara~N Sainath, Brian Kingsbury, Vikas Sindhwani, Ebru Arisoy, and Bhuvana
   Ramabhadran.
