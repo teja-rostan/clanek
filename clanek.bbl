@@ -1,5 +1,12 @@
 \begin{thebibliography}{10}
 
+\bibitem{bondarenko2014artificial}
+Andrey Bondarenko and Arkady Borisov.
+\newblock Artificial neural network generalization and simplification via
+  pruning.
+\newblock {\em Information Technology and Management Science}, 17(1):132--137,
+  2014.
+
 \bibitem{chen2015compressing}
 Wenlin Chen, James~T Wilson, Stephen Tyree, Kilian~Q Weinberger, and Yixin
   Chen.
@@ -28,6 +35,46 @@ Emily~L Denton, Wojciech Zaremba, Joan Bruna, Yann LeCun, and Rob Fergus.
 Yunchao Gong, Liu Liu, Ming Yang, and Lubomir~D. Bourdev.
 \newblock Compressing deep convolutional networks using vector quantization.
 \newblock {\em CoRR}, abs/1412.6115, 2014.
+
+\bibitem{han2015learning}
+Song Han, Jeff Pool, John Tran, and William~J Dally.
+\newblock Learning both weights and connections for efficient neural networks.
+\newblock {\em arXiv preprint arXiv:1506.02626}, 2015.
+
+\bibitem{hassibi1993optimal}
+Babak Hassibi, David~G Stork, and Gregory~J Wolff.
+\newblock Optimal brain surgeon and general network pruning.
+\newblock In {\em Neural Networks, 1993., IEEE International Conference on},
+  pages 293--299. IEEE, 1993.
+
+\bibitem{jaderberg2014speeding}
+Max Jaderberg, Andrea Vedaldi, and Andrew Zisserman.
+\newblock Speeding up convolutional neural networks with low rank expansions.
+\newblock {\em arXiv preprint arXiv:1405.3866}, 2014.
+
+\bibitem{lecun1989optimal}
+Yann LeCun, John~S Denker, Sara~A Solla, Richard~E Howard, and Lawrence~D
+  Jackel.
+\newblock Optimal brain damage.
+\newblock In {\em NIPs}, volume~89, 1989.
+
+\bibitem{mathieu2013fast}
+Michael Mathieu, Mikael Henaff, and Yann LeCun.
+\newblock Fast training of convolutional networks through ffts.
+\newblock {\em arXiv preprint arXiv:1312.5851}, 2013.
+
+\bibitem{sainath2013low}
+Tara~N Sainath, Brian Kingsbury, Vikas Sindhwani, Ebru Arisoy, and Bhuvana
+  Ramabhadran.
+\newblock Low-rank matrix factorization for deep neural network training with
+  high-dimensional output targets.
+\newblock In {\em Acoustics, Speech and Signal Processing (ICASSP), 2013 IEEE
+  International Conference on}, pages 6655--6659. IEEE, 2013.
+
+\bibitem{schmidhuber2015deep}
+J{\"u}rgen Schmidhuber.
+\newblock Deep learning in neural networks: An overview.
+\newblock {\em Neural Networks}, 61:85--117, 2015.
 
 \bibitem{shi2009hash}
 Qinfeng Shi, James Petterson, Gideon Dror, John Langford, Alex Smola, and SVN
