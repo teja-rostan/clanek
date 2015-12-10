@@ -32,19 +32,85 @@
 \end{abstract}
 
 \section{Introduction}
-Properties of convolutional networks (layers...)... convolutional layers take time, fully connected layers take space (importantly in test time). Pruning of convolutional network. Problems that can be solved with model: generalization, time and storage reduction, better interpretation. Introduction to our model, same-time matrix trifactorization on weights (on covolutional (time) and fully connected (size) layers separately). From almost keeping the performance of convolutional network to improvement of generalization.
+Properties of convolutional networks (layers...)... convolutional layers take 
+time, fully connected layers take space (importantly in test time). Pruning of 
+convolutional network. Problems that can be solved with model: generalization, 
+time and storage reduction, better interpretation. Introduction to our model, 
+same-time matrix trifactorization on weights (on covolutional (time) and fully 
+connected (size) layers separately). From almost keeping the performance of 
+convolutional network to improvement of generalization.
+
 
 \section{Related work}
 
-For a typical convolutional neural network, about 90\% of the model size is taken up by the dense connected layers and more than 90\% of the running time is taken by the convolutional layers~\cite{zeiler2014visualizing}. In article~\cite{denil2013predicting} they said that giving only a few weight values for each feature it is possible to accurately predict the remaining values while many of them do not need to be learned at all. They exploited the fact that the weights in learned networks tend to be structured. Because there is significant redundancy in the parametrization of networks, many researchers found solutions to compress them and fine-tune the compressed layers to recover the performance. 
+For a typical convolutional neural network, about 90\% of the model size is 
+taken up by the dense connected layers and more than 90\% of the running time is 
+taken by the convolutional layers~\cite{zeiler2014visualizing}. In 
+article~\cite{denil2013predicting} they said that giving only a few weight 
+values for each feature it is possible to accurately predict the remaining 
+values while many of them do not need to be learned at all. They exploited the 
+fact that the weights in learned networks tend to be structured. Because there 
+is significant redundancy in the parametrization of networks, many researchers 
+found solutions to compress them and fine-tune the compressed layers to recover 
+the performance. 
 
-Running time complexity is depended from the computation which is dominated by convolution operations in the lower layers of the model. One way to reduce the time complexity is to perform convolutions as products in the Fourier domain, and reuse transformed feature maps~\cite{mathieu2013fast}. By computing the Fourier transforms of the matrices in each set, the convolutions efficiently performes as pairwise products. More can be done by exploiting the redundany that exists between different feature channels and filters. In article~\cite{jaderberg2014speeding} they used filter banks. With this solution the CNNs are obtained by stacking multiple layers of convolutional filter banks on top of each other, followed by a non-linear response function times. Alternatively in article~\cite{denton2014exploiting} they compressed each convolutional layer by finding an appropriate low-rank approximation with considering several elementary tensor decompositions based on singular value decompositions, as well as filter clustering methods to take advantage of similarities between learned features.
 
-Compressing the parameters to reduce model size brings the focus upon how to compress the dense connected layers since the vast majority of weights reside in these layers which results in significant savings. Compressing the most storage demanding dense connected layers is possible by neural network pruning with low-rank matrix factorization methods~\cite{bondarenko2014artificial, schmidhuber2015deep, sainath2013low}. Network pruning has been used both to reduce model size and to reduce over-fitting~\cite{han2015learning}. State-of-the-art approaches are Optimal Brain Damage~\cite{lecun1989optimal} and Optimal Brain Surgeon~\cite{hassibi1993optimal}. Beside neural network pruning with matrix factorization other alternatives were presented where in~\cite{ DBLP:journals/corr/GongLYB14}, they used vector quantization methods for which they said have a clear gain over existing matrix factorization methods. Another alternative is application of singular value decomposition (SVD) on the weight matrices~\cite{xue2013restructuring}. A simple solution to reduce the model size and preserve the generalization ability is to train models that have a constant number of simpler neurons and was presented in article~\cite{collins2014memory} or by removing all connections whose weight is lower than a threshold~\cite{han2015learning}. First phase learns which connections are important and removes the unimportant ones using multiple iterations. Hashing is also an effective strategy for dimensionality reduction while preserving generalization performance~\cite{weinberger2009feature, shi2009hash}. The strategy used on neural networks named HashedNets~\cite{chen2015compressing} uses a low-cost hash function to randomly group connection weights into hash buckets where all connection inside share a single and tuned parameter value.  Another solution is in article~\cite{yang2014deep} where they replaced the fully connected layers of the network with an Adaptive Fastfood transform, resulting in a deep fried convnet. The Fastfood transform allows for a theoretical reduction in computation also. However, the computation in convolutional neural networks is dominated by the convolutions, and hence the deep fried convnets are not necessarily faster in practice. 
+Running time complexity is depended from the computation which is dominated by 
+convolution operations in the lower layers of the model. One way to reduce the 
+time complexity is to perform convolutions as products in the Fourier domain, 
+and reuse transformed feature maps~\cite{mathieu2013fast}. By computing the 
+Fourier transforms of the matrices in each set, the convolutions efficiently 
+performes as pairwise products. More can be done by exploiting the redundany 
+that exists between different feature channels and filters. In 
+article~\cite{jaderberg2014speeding} they used filter banks. With this solution 
+the CNNs are obtained by stacking multiple layers of convolutional filter banks 
+on top of each other, followed by a non-linear response function times. 
+Alternatively in article~\cite{denton2014exploiting} they compressed each 
+convolutional layer by finding an appropriate low-rank approximation with 
+considering several elementary tensor decompositions based on singular value 
+decompositions, as well as filter clustering methods to take advantage of 
+similarities between learned features.
+
+
+Compressing the parameters to reduce model size brings the focus upon how to 
+compress the dense connected layers since the vast majority of weights reside in 
+these layers which results in significant savings. Compressing the most storage 
+demanding dense connected layers is possible by neural network pruning with 
+low-rank matrix factorization methods~\cite{bondarenko2014artificial, 
+schmidhuber2015deep, sainath2013low}. Network pruning has been used both to 
+reduce model size and to reduce over-fitting~\cite{han2015learning}. 
+State-of-the-art approaches are Optimal Brain Damage~\cite{lecun1989optimal} and 
+Optimal Brain Surgeon~\cite{hassibi1993optimal}. Beside neural network pruning 
+with matrix factorization other alternatives were presented where in~\cite{ 
+DBLP:journals/corr/GongLYB14}, they used vector quantization methods for which 
+they said have a clear gain over existing matrix factorization methods. Another 
+alternative is application of singular value decomposition (SVD) on the weight 
+matrices~\cite{xue2013restructuring}. A simple solution to reduce the model size 
+and preserve the generalization ability is to train models that have a constant 
+number of simpler neurons and was presented in article~\cite{collins2014memory} 
+or by removing all connections whose weight is lower than a 
+threshold~\cite{han2015learning}. First phase learns which connections are 
+important and removes the unimportant ones using multiple iterations. Hashing is 
+also an effective strategy for dimensionality reduction while preserving 
+generalization performance~\cite{weinberger2009feature, shi2009hash}. The 
+strategy used on neural networks named HashedNets~\cite{chen2015compressing} 
+uses a low-cost hash function to randomly group connection weights into hash 
+buckets where all connection inside share a single and tuned parameter value.  
+Another solution is in article~\cite{yang2014deep} where they replaced the fully 
+connected layers of the network with an Adaptive Fastfood transform, resulting 
+in a deep fried convnet. The Fastfood transform allows for a theoretical 
+reduction in computation also. However, the computation in convolutional neural 
+networks is dominated by the convolutions, and hence the deep fried convnets are 
+not necessarily faster in practice. 
+
 
 
 \section{Method description}
-Collecting the weight matrices from convolutional layers and from fully connected layers, perform pruning (description of pruning with same-time matrix trifactorization), setting the pruned weights to zero, tuning the parameters with iterations after pruning.
+Collecting the weight matrices from convolutional layers and from fully 
+connected layers, perform pruning (description of pruning with same-time matrix 
+trifactorization), setting the pruned weights to zero, tuning the parameters 
+with iterations after pruning.
+
 
 \section{Experiments}
 Description and preparation of datasets, parameters, results, analysis.
