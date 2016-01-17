@@ -1,5 +1,27 @@
 \begin{thebibliography}{10}
 
+\bibitem{augasta2013pruning}
+M~Gethsiyal Augasta and T~Kathirvalavakumar.
+\newblock Pruning algorithms of neural networks—a comparative study.
+\newblock {\em Central European Journal of Computer Science}, 3(3):105--115,
+  2013.
+
+\bibitem{Bastien-Theano-2012}
+Fr{\'{e}}d{\'{e}}ric Bastien, Pascal Lamblin, Razvan Pascanu, James Bergstra,
+  Ian~J. Goodfellow, Arnaud Bergeron, Nicolas Bouchard, and Yoshua Bengio.
+\newblock Theano: new features and speed improvements.
+\newblock Deep Learning and Unsupervised Feature Learning NIPS 2012 Workshop,
+  2012.
+
+\bibitem{bergstra+al:2010-scipy}
+James Bergstra, Olivier Breuleux, Fr{\'{e}}d{\'{e}}ric Bastien, Pascal Lamblin,
+  Razvan Pascanu, Guillaume Desjardins, Joseph Turian, David Warde-Farley, and
+  Yoshua Bengio.
+\newblock Theano: a {CPU} and {GPU} math expression compiler.
+\newblock In {\em Proceedings of the Python for Scientific Computing Conference
+  ({SciPy})}, June 2010.
+\newblock Oral Presentation.
+
 \bibitem{bondarenko2014artificial}
 Andrey Bondarenko and Arkady Borisov.
 \newblock Artificial neural network generalization and simplification via
@@ -31,6 +53,20 @@ Emily~L Denton, Wojciech Zaremba, Joan Bruna, Yann LeCun, and Rob Fergus.
 \newblock In {\em Advances in Neural Information Processing Systems}, pages
   1269--1277, 2014.
 
+\bibitem{AISTATS2011_GlorotBB11}
+Xavier Glorot, Antoine Bordes, and Yoshua Bengio.
+\newblock Deep sparse rectifier neural networks.
+\newblock In Geoffrey~J. Gordon and David~B. Dunson, editors, {\em Proceedings
+  of the Fourteenth International Conference on Artificial Intelligence and
+  Statistics (AISTATS-11)}, volume~15, pages 315--323. Journal of Machine
+  Learning Research - Workshop and Conference Proceedings, 2011.
+
+\bibitem{erogol}
+Eren Golge.
+\newblock Comparison: Sgd vs momentum vs rmsprop vd momentum+rmsprop vs
+  adagrad, 2015.
+\newblock Avaliable: \url{http://www.erogol.com/} [Reached 17.1.2016].
+
 \bibitem{DBLP:journals/corr/GongLYB14}
 Yunchao Gong, Liu Liu, Ming Yang, and Lubomir~D. Bourdev.
 \newblock Compressing deep convolutional networks using vector quantization.
@@ -47,10 +83,26 @@ Babak Hassibi, David~G Stork, and Gregory~J Wolff.
 \newblock In {\em Neural Networks, 1993., IEEE International Conference on},
   pages 293--299. IEEE, 1993.
 
+\bibitem{lecture}
+Geoffrey Hinton.
+\newblock Lecture 6a overview of mini-batch gradient descent, 2014.
+\newblock Avaliable: \url{www.cs.toronto.edu/} [Reached 17.1.2016].
+
 \bibitem{jaderberg2014speeding}
 Max Jaderberg, Andrea Vedaldi, and Andrew Zisserman.
 \newblock Speeding up convolutional neural networks with low rank expansions.
 \newblock {\em arXiv preprint arXiv:1405.3866}, 2014.
+
+\bibitem{langville2014algorithms}
+Amy~N Langville, Carl~D Meyer, Russell Albright, James Cox, and David Duling.
+\newblock Algorithms, initializations, and convergence for the nonnegative
+  matrix factorization.
+\newblock {\em arXiv preprint arXiv:1407.7299}, 2014.
+
+\bibitem{lecun-mnisthandwrittendigit-2010}
+Yann LeCun and Corinna Cortes.
+\newblock {MNIST} handwritten digit database.
+\newblock 2010.
 
 \bibitem{lecun1989optimal}
 Yann LeCun, John~S Denker, Sara~A Solla, Richard~E Howard, and Lawrence~D
@@ -58,10 +110,34 @@ Yann LeCun, John~S Denker, Sara~A Solla, Richard~E Howard, and Lawrence~D
 \newblock Optimal brain damage.
 \newblock In {\em NIPs}, volume~89, 1989.
 
+\bibitem{li2012tuning}
+Xiangmei Li.
+\newblock Tuning the structure and parameters of a neural network by a new
+  network model based on genetic algorithms.
+\newblock {\em International Journal of Digital Content Technology \& its
+  Applications}, 6(11), 2012.
+
 \bibitem{mathieu2013fast}
 Michael Mathieu, Mikael Henaff, and Yann LeCun.
 \newblock Fast training of convolutional networks through ffts.
 \newblock {\em arXiv preprint arXiv:1312.5851}, 2013.
+
+\bibitem{github}
+Alec~Radford (newmu).
+\newblock Theano-tutorials, 2015.
+\newblock Avaliable: \url{http://www.github.com} [Reached 27.1.2016].
+
+\bibitem{neyshabur2013sparse}
+Behnam Neyshabur and Rina Panigrahy.
+\newblock Sparse matrix factorization.
+\newblock {\em arXiv preprint arXiv:1311.3315}, 2013.
+
+\bibitem{scikit-learn}
+F.~Pedregosa, G.~Varoquaux, A.~Gramfort, V.~Michel, B.~Thirion, O.~Grisel,
+  M.~Blondel, P.~Prettenhofer, R.~Weiss, V.~Dubourg, J.~Vanderplas, A.~Passos,
+  D.~Cournapeau, M.~Brucher, M.~Perrot, and E.~Duchesnay.
+\newblock Scikit-learn: Machine learning in {P}ython.
+\newblock {\em Journal of Machine Learning Research}, 12:2825--2830, 2011.
 
 \bibitem{rigamonti2013learning}
 Roberto Rigamonti, Amos Sironi, Vincent Lepetit, and Pascal Fua.
@@ -88,6 +164,13 @@ Qinfeng Shi, James Petterson, Gideon Dror, John Langford, Alex Smola, and SVN
 \newblock Hash kernels for structured data.
 \newblock {\em The Journal of Machine Learning Research}, 10:2615--2637, 2009.
 
+\bibitem{srivastava2014dropout}
+Nitish Srivastava, Geoffrey Hinton, Alex Krizhevsky, Ilya Sutskever, and Ruslan
+  Salakhutdinov.
+\newblock Dropout: A simple way to prevent neural networks from overfitting.
+\newblock {\em The Journal of Machine Learning Research}, 15(1):1929--1958,
+  2014.
+
 \bibitem{weinberger2009feature}
 Kilian Weinberger, Anirban Dasgupta, John Langford, Alex Smola, and Josh
   Attenberg.
@@ -111,5 +194,11 @@ Zichao Yang, Marcin Moczulski, Misha Denil, Nando de~Freitas, Alex Smola,
 Matthew~D Zeiler and Rob Fergus.
 \newblock Visualizing and understanding convolutional networks.
 \newblock In {\em Computer Vision--ECCV 2014}, pages 818--833. Springer, 2014.
+
+\bibitem{zitnik2015data}
+Marinka Zitnik and Blaz Zupan.
+\newblock Data fusion by matrix factorization.
+\newblock {\em Pattern Analysis and Machine Intelligence, IEEE Transactions
+  on}, 37(1):41--53, 2015.
 
 \end{thebibliography}

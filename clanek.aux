@@ -16,50 +16,101 @@
 \gdef\HyperFirstAtBeginDocument#1{#1}
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
-\citation{zeiler2014visualizing}
+\citation{augasta2013pruning}
+\citation{augasta2013pruning}
+\citation{DBLP:journals/corr/GongLYB14}
 \citation{denil2013predicting}
-\citation{mathieu2013fast}
-\citation{jaderberg2014speeding}
-\citation{rigamonti2013learning}
-\citation{jaderberg2014speeding}
-\citation{denton2014exploiting}
+\citation{augasta2013pruning}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}}
 \citation{bondarenko2014artificial}
 \citation{schmidhuber2015deep}
 \citation{sainath2013low}
 \citation{han2015learning}
 \citation{lecun1989optimal}
 \citation{hassibi1993optimal}
-\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {2}Related work}{1}{section.2}}
 \citation{DBLP:journals/corr/GongLYB14}
 \citation{xue2013restructuring}
+\citation{li2012tuning}
 \citation{collins2014memory}
-\citation{yang2014deep}
 \citation{han2015learning}
 \citation{weinberger2009feature}
 \citation{shi2009hash}
 \citation{chen2015compressing}
-\bibdata{literature}
-\bibcite{bondarenko2014artificial}{1}
-\bibcite{chen2015compressing}{2}
-\bibcite{collins2014memory}{3}
-\bibcite{denil2013predicting}{4}
-\bibcite{denton2014exploiting}{5}
-\bibcite{DBLP:journals/corr/GongLYB14}{6}
-\bibcite{han2015learning}{7}
-\bibcite{hassibi1993optimal}{8}
+\citation{yang2014deep}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Related work}{2}{section.2}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Method description}{2}{section.3}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Experiments}{2}{section.4}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Discussion and conclusion}{2}{section.5}}
-\bibcite{jaderberg2014speeding}{9}
-\bibcite{lecun1989optimal}{10}
-\bibcite{mathieu2013fast}{11}
-\bibcite{rigamonti2013learning}{12}
-\bibcite{sainath2013low}{13}
-\bibcite{schmidhuber2015deep}{14}
-\bibcite{shi2009hash}{15}
-\bibcite{weinberger2009feature}{16}
-\bibcite{xue2013restructuring}{17}
-\bibcite{yang2014deep}{18}
-\bibcite{zeiler2014visualizing}{19}
+\citation{neyshabur2013sparse}
+\citation{langville2014algorithms}
+\citation{zitnik2015data}
+\citation{zitnik2015data}
+\citation{zitnik2015data}
+\citation{zitnik2015data}
+\citation{zitnik2015data}
+\citation{zitnik2015data}
+\citation{zitnik2015data}
+\citation{zitnik2015data}
+\citation{zitnik2015data}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Deep neural network with densed connected layers.}}{3}{figure.1}}
+\newlabel{f:globokamreza}{{1}{3}{Deep neural network with densed connected layers}{figure.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Approximation of matrix with matrix factorization}{3}{subsection.3.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Simultaneous matrix tri-factorization}{3}{subsection.3.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces An example of simultaneous matrix tri-factorization. On the left side are all available relation matrices $R$. They are factorized to matrices $G$ and $S$ (on the right). Source\nobreakspace  {}\cite  {zitnik2015data}.}}{4}{figure.2}}
+\newlabel{f:zlitje_matricne_tri-faktorizacije}{{2}{4}{An example of simultaneous matrix tri-factorization. On the left side are all available relation matrices $R$. They are factorized to matrices $G$ and $S$ (on the right). Source~\cite {zitnik2015data}}{figure.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Matrix factorization-based brain pruning}{4}{subsection.3.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Artificial two-layered neural network with weight matrices (relation matrices $R$). The size od each matrix is dependent by number of neurons on surrounding layers. For example $R_{I,H1}$ has four ($I$) rows and five ($H1$) columns.}}{4}{figure.3}}
+\newlabel{f:mrezafusion}{{3}{4}{Artificial two-layered neural network with weight matrices (relation matrices $R$). The size od each matrix is dependent by number of neurons on surrounding layers. For example $R_{I,H1}$ has four ($I$) rows and five ($H1$) columns}{figure.3}{}}
+\citation{lecun-mnisthandwrittendigit-2010}
+\citation{github}
+\citation{AISTATS2011_GlorotBB11}
+\citation{srivastava2014dropout}
+\citation{erogol}
+\citation{lecture}
+\citation{lecture}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Configuration of relation matrices $R$ from figure\nobreakspace  {}\ref  {f:mrezafusion} for simultaneous matrix tri-factorization. In our case, the relation matrices $R$ present weight matrices of neural network. Configuration is set on diagonal because the neighbour weight matrices share the dimension from shared hidden layer}}{5}{figure.4}}
+\newlabel{f:tabelafusion}{{4}{5}{Configuration of relation matrices $R$ from figure~\ref {f:mrezafusion} for simultaneous matrix tri-factorization. In our case, the relation matrices $R$ present weight matrices of neural network. Configuration is set on diagonal because the neighbour weight matrices share the dimension from shared hidden layer}{figure.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Possible changes of values of weights. Values before pruning (red circle) and after pruning (blue circle). In a) case, the weight value changes sign, b) moves closer to zero and c) moves away from zero.}}{5}{figure.5}}
+\newlabel{f:spremembeutezi}{{5}{5}{Possible changes of values of weights. Values before pruning (red circle) and after pruning (blue circle). In a) case, the weight value changes sign, b) moves closer to zero and c) moves away from zero}{figure.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Experimental setup}{5}{section.4}}
+\citation{Bastien-Theano-2012}
+\citation{bergstra+al:2010-scipy}
+\citation{zitnik2015data}
+\citation{scikit-learn}
+\bibdata{literature}
+\bibcite{augasta2013pruning}{1}
+\bibcite{Bastien-Theano-2012}{2}
+\bibcite{bergstra+al:2010-scipy}{3}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Results}{6}{section.5}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Discussion and conclusion}{6}{section.6}}
+\bibcite{bondarenko2014artificial}{4}
+\bibcite{chen2015compressing}{5}
+\bibcite{collins2014memory}{6}
+\bibcite{denil2013predicting}{7}
+\bibcite{denton2014exploiting}{8}
+\bibcite{AISTATS2011_GlorotBB11}{9}
+\bibcite{erogol}{10}
+\bibcite{DBLP:journals/corr/GongLYB14}{11}
+\bibcite{han2015learning}{12}
+\bibcite{hassibi1993optimal}{13}
+\bibcite{lecture}{14}
+\bibcite{jaderberg2014speeding}{15}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces AUC results of neural networks. With pruned neural networks, the pruning starts at 40th iteration.}}{7}{figure.6}}
+\newlabel{f:results}{{6}{7}{AUC results of neural networks. With pruned neural networks, the pruning starts at 40th iteration}{figure.6}{}}
+\bibcite{langville2014algorithms}{16}
+\bibcite{lecun-mnisthandwrittendigit-2010}{17}
+\bibcite{lecun1989optimal}{18}
+\bibcite{li2012tuning}{19}
+\bibcite{mathieu2013fast}{20}
+\bibcite{github}{21}
+\bibcite{neyshabur2013sparse}{22}
+\bibcite{scikit-learn}{23}
+\bibcite{rigamonti2013learning}{24}
+\bibcite{sainath2013low}{25}
+\bibcite{schmidhuber2015deep}{26}
+\bibcite{shi2009hash}{27}
+\bibcite{srivastava2014dropout}{28}
+\bibcite{weinberger2009feature}{29}
+\bibcite{xue2013restructuring}{30}
+\bibcite{yang2014deep}{31}
+\bibcite{zeiler2014visualizing}{32}
+\bibcite{zitnik2015data}{33}
 \bibstyle{plain}

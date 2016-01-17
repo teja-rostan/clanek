@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2015.10.15)  10 DEC 2015 21:23
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2015.10.15)  17 JAN 2016 17:46
 entering extended mode
 **clanek.tex
 (clanek.tex
@@ -192,6 +192,23 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip43
 )
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+Package: graphics 2014/10/28 v1.0p Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: pdftex.def on input line 94.
+)
+\Gin@req@height=\dimen110
+\Gin@req@width=\dimen111
+)
 (clanek.aux)
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 25.
 LaTeX Font Info:    ... okay on input line 25.
@@ -216,13 +233,13 @@ File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count103
-\scratchdimen=\dimen110
+\scratchdimen=\dimen112
 \scratchbox=\box29
 \nofMPsegments=\count104
 \nofMParguments=\count105
 \everyMPshowfont=\toks15
 \MPscratchCnt=\count106
-\MPscratchDim=\dimen111
+\MPscratchDim=\dimen113
 \MPnumerator=\count107
 \makeMPintoPDFobject=\count108
 \everyMPtoPDFconversion=\toks16
@@ -257,37 +274,133 @@ File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 30.
+
+Underfull \vbox (badness 1454) has occurred while \output is active []
+
  [1{C:/Users/tejar/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
 
-] (clanek.bbl [2])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 165.
+]
+<globokamreza2.jpg, id=70, 501.875pt x 260.975pt>
+File: globokamreza2.jpg Graphic file (type jpg)
+ <use globokamreza2.jpg>
+Package pdftex.def Info: globokamreza2.jpg used on input line 173.
+(pdftex.def)             Requested size: 298.11374pt x 155.0252pt.
 
-[3]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 165.
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [2]
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ç in font cmr10!
+Missing character: There is no ¨ in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ç in font cmr10!
+Missing character: There is no ¨ in font cmr10!
+
+<Izbor_037.png, id=97, 418.56375pt x 222.8325pt>
+File: Izbor_037.png Graphic file (type png)
+ <use Izbor_037.png>
+Package pdftex.def Info: Izbor_037.png used on input line 229.
+(pdftex.def)             Requested size: 317.9892pt x 169.28645pt.
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ¶ in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ç in font cmr10!
+Missing character: There is no ¨ in font cmr10!
+
+Underfull \vbox (badness 1424) has occurred while \output is active []
+
+ [3 <./globokamreza2.jpg>] <mrezafusion.jpg, id=119, 501.875pt x 301.125pt>
+File: mrezafusion.jpg Graphic file (type jpg)
+
+<use mrezafusion.jpg>
+Package pdftex.def Info: mrezafusion.jpg used on input line 272.
+(pdftex.def)             Requested size: 284.52756pt x 170.72406pt.
+ <tabelafusion.jpg, id=120, 255.95625pt x 242.9075pt>
+File: tabelafusion.jpg Graphic file (type jpg)
+
+<use tabelafusion.jpg>
+Package pdftex.def Info: tabelafusion.jpg used on input line 282.
+(pdftex.def)             Requested size: 158.99377pt x 150.88647pt.
+
+<kriterijrezanja.jpg, id=125, 543.02875pt x 438.63875pt>
+File: kriterijrezanja.jpg Graphic file (type jpg)
+
+<use kriterijrezanja.jpg>
+Package pdftex.def Info: kriterijrezanja.jpg used on input line 302.
+(pdftex.def)             Requested size: 158.51004pt x 128.0374pt.
+ [4 <./Izbor_037.png> <./mrezafusion.jpg>]
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ¶ in font ptmr7t!
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ¶ in font ptmr7t!
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ú in font ptmr7t!
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ù in font ptmr7t!
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ú in font ptmr7t!
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ù in font ptmr7t!
+ [5 <./tabelafusion.jpg> <./kriterijrezanja.jpg>]
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ú in font ptmr7t!
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ù in font ptmr7t!
+
+<mnist2.png, id=152, 578.16pt x 433.62pt>
+File: mnist2.png Graphic file (type png)
+ <use mnist2.png>
+Package pdftex.def Info: mnist2.png used on input line 387.
+(pdftex.def)             Requested size: 284.52756pt x 213.39536pt.
+ (clanek.bbl
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no î in font ptmr7t!
+ [6]
+[7 <./mnist2.png>])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 422.
+ [8]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 422.
  (clanek.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 165.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 165.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 422.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 422.
 Package rerunfilecheck Info: File `clanek.out' has not changed.
-(rerunfilecheck)             Checksum: 58F15E6FD61B76A9E609DA3649C7F2D1;258.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 165.
+(rerunfilecheck)             Checksum: C8B196DD7E16783FBE7339F9C3D82C82;584.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 422.
  ) 
 Here is how much of TeX's memory you used:
- 5483 strings out of 493673
- 80280 string characters out of 3141529
- 172819 words of memory out of 3000000
- 8775 multiletter control sequences out of 15000+200000
+ 5727 strings out of 493673
+ 83893 string characters out of 3141529
+ 178592 words of memory out of 3000000
+ 8971 multiletter control sequences out of 15000+200000
  14964 words of font info for 30 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
- 37i,12n,39p,230b,422s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 37i,12n,39p,450b,426s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Progra
-m Files (x86)/MiKTeX 2.9/fonts/type1/urw/courier/ucrr8a.pfb><C:/Program Files (
-x86)/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/Program Files (x86)/MiK
-TeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fon
-ts/type1/urw/times/utmr8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/ur
-w/times/utmri8a.pfb>
-Output written on clanek.pdf (3 pages, 82594 bytes).
+m Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program 
+Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Program Fil
+es (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files 
+(x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files (x8
+6)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files (x86)/M
+iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files (x86)/MiK
+TeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Program Files (x86)/MiKTeX
+ 2.9/fonts/type1/urw/courier/ucrr8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/font
+s/type1/urw/helvetic/uhvb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/
+urw/times/utmb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/times/u
+tmr8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
+
+Output written on clanek.pdf (8 pages, 423427 bytes).
 PDF statistics:
- 110 PDF objects out of 1000 (max. 8388607)
- 31 named destinations out of 1000 (max. 500000)
- 41 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 243 PDF objects out of 1000 (max. 8388607)
+ 60 named destinations out of 1000 (max. 500000)
+ 103 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,5 +1,9 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
 \BOOKMARK [1][-]{section.2}{Related work}{}% 2
 \BOOKMARK [1][-]{section.3}{Method description}{}% 3
-\BOOKMARK [1][-]{section.4}{Experiments}{}% 4
-\BOOKMARK [1][-]{section.5}{Discussion and conclusion}{}% 5
+\BOOKMARK [2][-]{subsection.3.1}{Approximation of matrix with matrix factorization}{section.3}% 4
+\BOOKMARK [2][-]{subsection.3.2}{Simultaneous matrix tri-factorization}{section.3}% 5
+\BOOKMARK [2][-]{subsection.3.3}{Matrix factorization-based brain pruning}{section.3}% 6
+\BOOKMARK [1][-]{section.4}{Experimental setup}{}% 7
+\BOOKMARK [1][-]{section.5}{Results}{}% 8
+\BOOKMARK [1][-]{section.6}{Discussion and conclusion}{}% 9
