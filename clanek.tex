@@ -4,6 +4,13 @@
 \usepackage{url}
 %\documentstyle[nips14submit_09,times,art10]{article} % For LaTeX 2.09
 \usepackage[pdftex]{graphicx}  % omogoča vlaganje slik različnih 
+\usepackage{wrapfig}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{listings}
+\newtheorem{theorem}{Theorem}[section]
+
+
 
 \title{Neural network pruning with simultaneous matrix tri-factorization}
 \author{Teja Roštan}
@@ -170,148 +177,122 @@ not necessarily faster in practice.
 \section{Method description}
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=.75\textwidth]{globokamreza2.jpg}
+\includegraphics[width=.6\textwidth]{globokamreza2.jpg}
 \caption{Deep neural network with densed connected layers.}
 \label{f:globokamreza}
 \end{figure}
 Deep neural network is a feed-forward, artificial neural network with more than 
-one or two hidden layers between the input and output layer. 
-Figure~\ref{f:globokamreza} shows the structure of a deep neural network. The 
-number of nodes on the left layer, known as the input layer, is the same as the 
-number of attributes in a dataset while the number of nodes in the most right 
-layer, named as output layer is the same as the number of classes. Between them 
-are the hidden layers as mentioned above. The number of nodes in every hidden 
-layer is depended of the dataset we used. Our main goal was to use more nodes 
-than necessary to prune the unnecessary ones later.
+one or two hidden layers between the input and output layer~\ref{f:globokamreza}. The number of nodes in every hidden 
+layer is chosen manually. Our main goal was to use more nodes 
+than necessary to prune the unnecessary ones later. The pruning was achieved using a low-dimensional approximation of original weight matrices to estimate which nodes are batter to prune. To approximate the weight matrices, we used simultaneous matrix tri-factorization.
 
 \subsection{Approximation of matrix with matrix factorization}
 Matrix factorization is a technique to search linear representation with 
 factorizing. Approximation of matrix with matrix factorization is used to 
 approximate the data in low-dimensional space in order to find latent features. 
-The theorem of the method matrix factorization follows:
+The theorem of the method matrix factorization follows in~\ref{t:1}.
 
-Izrek: Given is a matrix $A \in \Re^{m \times n}$ and a positive integer $k \ll 
-min\{m,n\}$. Find matrices $W \in \Re^{m \times k}$ and $H \in \Re^{k \times 
-n}$, such that $WH \approx A$. the product $WH$ is named as a matrix 
-factorization (MF) of a matrix $A$. $WH$ is an approximated factorization if 
-rang $r = k$.
+\begin{theorem}\label{t:1}
+Given is a matrix $X \in \Re^{m \times n}$ and a positive integer $k \ll 
+min\{m,n\}$. Find matrices $U \in \Re^{m \times k}$ and $V \in \Re^{k \times 
+n}$, such that $UV \approx X$. The product $UV$ is named as a matrix 
+factorization of a matrix $X$. $UV$ is an approximated factorization if 
+rang $r = k$~\ref{f:mf1}.
+\end{theorem}
+\begin{figure}[!ht]
+\centering 
+\includegraphics[width=.4\textwidth]{mf1.png}
+\caption{Graphical visualization of matrix factorization.}
+\label{f:mf1}
+\end{figure}
 
-We assume that factorized matrix $W$ has less columns than the original matrix $A$ 
-has rows. Approximation is successful only when the latent structure is found 
-and the dimensionality of data gets lower. Applications, such as text 
-processing, image processing and data mining store valuable information in very 
-big matrices. Not only that low rank matrix factorization reduces the 
-consumption of memory but also offers more clear and more efficient 
-representation of connections between data~\cite{neyshabur2013sparse}. A low 
-rank approximation finds the key components of data and discards the data that 
-attribute to noise, error or inconsistency~\cite{langville2014algorithms}. 
-Because of the potential of matrix factorization, a lot of upgraded versions 
-were created. One of them is a simultaneous matrix 
-factorization~\cite{zitnik2015data}.
+With ordinary artificial neural network, we have only one hidden layer and 
+therefore two weight matrices with sharing dimension. 
+Because of this property, we are able to concatenate the matrices through 
+sharing dimension and apply a matrix factorization. 
+
+With deep neural networks we 
+have a multi-layer architecture where only neighbour weight matrices share the same dimension. We can apply co-dependency between neighbour 
+weight matrices but we can not apply dependency between, for example, first and 
+third weight matrix. Our goal was to consider all relations that exist between weight matrices in deep neural network. Simultaneous matrix tri-factorization applies our criteria.
+
 
 \subsection{Simultaneous matrix tri-factorization}
-Izrek: Simultaneous tri-factorization of multiple matrices simultaneously 
-factorize all available relation matrices $R_{ij}$ v $G_i € \Re^{n_i \times 
-k_i}$, $G_j E \Re^{n_j \times k_j}$ in $S € \Re^{k_i \times k_j}$ and regulize 
-their approximations through constrained matrices $\theta_i$ and $\theta_j$, 
-such that $R_{ij} \approx G_iS_{ij}G_j^T$~\cite{zitnik2015data}. 
 
-Simultaneous matrix tri-factorization focuses on a specific target relation and 
-exploits directly connected data. It contains a set of restrictions of the 
-connections that should connect and of those which should not. In that way it 
-contains the relations between the objects of the same 
-type~\cite{zitnik2015data}. It finds latent associations between matrices with 
-simultaneous factorization of matrices, therefore directly considers every 
-dataset that can be represented as a matrix~\cite{zitnik2015data}.
+\begin{theorem}\label{t:2}
+Simultaneous tri-factorization of multiple matrices simultaneously 
+factorize all available relation matrices $R_{ij}$ into $G_i \in \Re^{m \times 
+k}$, $G_j \in \Re^{n \times h}$ and $S \in \Re^{k \times h}$ and regularize 
+their approximations through constrained matrices $\theta_i$ and $\theta_j$, 
+such that $R_{ij} \approx G_iS_{ij}G_j^T$~\cite{zitnik2015data}~\ref{f:mf2}.
+\end{theorem} 
+
+The theorem of simultaneous matrix tri-factorization~\ref{t:2}. We can reduce the number of nodes (parameters) in network as long as the number of parameters in $G_i$ and $G_j$ is less than $X$. If we would like to reduce the number of parameters in $X$ by a fraction of $p$~\cite{sainath2013low}, we require the equation~\ref{eq:1} to hold.
+
+\begin{equation} \label{eq:1}
+ mk + kh + hn < pmn
+\end{equation}
+
 
 \begin{figure}[!ht]
 \centering 
-\includegraphics[width=.8\textwidth]{Izbor_037.png}
-\caption{An example of simultaneous matrix tri-factorization. 
-On the left side are all available relation matrices $R$. 
-They are factorized to matrices $G$ and $S$ (on the right). 
-Source~\cite{zitnik2015data}.}
-\label{f:zlitje_matricne_tri-faktorizacije}
+\includegraphics[width=.5\textwidth]{mf2.png}
+\caption{Graphical visualization of simultaneous matrix tri-factorization.}
+\label{f:mf2}
 \end{figure}
 
-The data fusion algorithm considers $r$ object types $\xi_1,…,\xi_r$ and a 
-collection of data sources, each relating a pair of object types 
-$(\xi_i,\xi_j)$. If there are $n_i$ objects of type $\xi_i$ and $n_j$ objects of 
-type $\xi_j$, it represents the observations from the data source that relates 
-$(\xi_i,\xi_j)$ or $i \neq j$ in a sparse matrix $R_{ij} € \Re^{n_i \times 
-n_j}$. In general matrices $R_{ij}$ and $R_{ji}$ need not be symmetric. A data 
-source that provides relations between objects of the same type $\xi_i$ is 
-represented by a constrant matrix $\theta_i \in \Re^{n_i \times 
-n_i}$~\cite{zitnik2015data}.  
-Even if we are missing relations between some pairs, the algorithm still 
-integrates all available data if an underlying graph of relations between object 
-types is connected. Figure~\ref{f:zlitje_matricne_tri-faktorizacije} shows an 
-example of a block configuration of the fusion system with four object 
-types~\cite{zitnik2015data}.
 
-To retain the block structure of a system, it is proposed the simultaneous 
-matrix tri-factorization of all relation matrices $R_{ij}$ constrained by 
-$\theta_i$. The resulting system contains factors that are specific to each data 
-source and factors that are specific to each object type. Through factor sharing 
-it fuses the data but also identifies source-specific 
-patterns~\cite{zitnik2015data}.
-\subsection{Matrix factorization-based brain pruning}
-With ordinary artificial neural network, we have only one hidden layer and 
-therefore two weight matrices with the same object type (sharing dimension). 
-Because of this property, we are able to concatenate the matrices through 
-sharing dimension and apply a matrix factorization. With deep neural networks we 
-have a multi-layer architecture where neighbor weight matrices share the same 
-object type (same dimension).  We can apply co-dependency between neighbor 
-weight matrices but we can apply dependency between, for example, first and 
-third weight matrix. With simultaneous matrix tri-factorization we can solve the 
-mentioned problem and pruning neural networks with simultaneous matrix 
-tri-factorization named matrix factorization-based brain pruning (MFBP).
+\newpage
 
-\begin{figure}[!ht]
+In a figure~\ref{f:mrezafusion} is shown a neural network with two hidden layers 
+and their relation weight matrices $R_{ij}$ between them. The weight matrices are collected 
+from neural network and configured in a matrix of relations $R$ as shown in 
+figure~\ref{f:tabelafusion}. A block in the $i$-th row and $j$-th column ($R_{ij}$) of matrix $R$ represents the relationship between object type $\xi_i$ and $\xi_j$. The block matrix $R$ is tri-factorized into block matrix factors $G$ and $S$. A factorization rank $k_i$ is assigned to $\xi_i$ during inference of the factorized system. Factors $S_{ij}$ define the relations between object types $\xi_i$ and $\xi_j$, while factors $G_i$ are specific to objects of type $\xi_i$ and are used in the reconstruction of every relation with  this object type. In this way, each relation matrix $R_{ij}$ obtains its own factorization $G_i S_{ij} {G_j}^T$ with factor $G_i$ ($G_j$) that is shared across relations which involve object types $\xi_i$ ($\xi_j$). The objective function minimized by penalized matrix
+tri-factorization ensures good approximation of the input
+data and adherence to must-link and cannot-link
+constraints~\cite{zitnik2015data}.
+
+With approximations we determined which weights are better to prune.
+We pruned weights which hold followed criteria and were forced to a zero value to be considered as pruned:
+\begin{lstlisting}
+abs(original_weight) - abs(approximated_weight) < threshold.
+\end{lstlisting}
+
+
+%\begin{figure}[!ht]
+%\centering 
+%\includegraphics[height=4.5cm]{kriterijrezanja.jpg}
+%\caption{Possible changes of values of weights. Values before pruning (red 
+%circle) and after pruning (blue circle). In a) case, the weight value changes 
+%sign, b) moves closer to zero and c) moves away from zero.}
+%\label{f:spremembeutezi}
+%\end{figure}
+\begin{figure}
 \centering
-\includegraphics[width=10cm]{mrezafusion.jpg}
-\caption{Artificial two-layered neural network with weight matrices (relation 
+
+\begin{minipage}{.52\textwidth}
+\centering
+\includegraphics[width=\linewidth]{mrezafusion.jpg}
+\captionof{figure}{Artificial two-layered neural network with weight matrices (relation 
 matrices $R$).
-The size od each matrix is dependent by number of neurons on surrounding layers. 
+The size of each matrix is dependent by number of neurons on surrounding layers. 
 For example $R_{I,H1}$ has four ($I$) rows and five ($H1$) columns.}
 \label{f:mrezafusion}
-\end{figure}
-
-\begin{figure}[!ht]
-\centering 
-\includegraphics[width=2.2in]{tabelafusion.jpg}
-\caption{Configuration of relation matrices $R$ from figure~\ref{f:mrezafusion} 
+\end{minipage}
+\hfill
+\begin{minipage}{.45\textwidth}
+\centering
+\includegraphics[width=0.8\linewidth]{tabelafusion.jpg}
+\captionof{figure}{Configuration of relation matrices $R_{ij}$ from figure~\ref{f:mrezafusion} 
 for simultaneous matrix tri-factorization. In our case, 
-the relation matrices $R$ present weight matrices of neural network.
+the relation matrices $R_{ij}$ present weight matrices of neural network.
 Configuration is set on diagonal because the neighbour weight matrices share the 
 dimension
-from shared hidden layer}
+from shared hidden layer.}
 \label{f:tabelafusion}
-\end{figure}  
-In a figure~\ref{f:mrezafusion} is shown a neural network with two hidden layers 
-and relation weight matrices $R$ between them. The weight matrices are collected 
-from neural network and configured in a graph of relations as shown in 
-figure~\ref{f:tabelafusion}. The graph of relations is then used in data fusion. 
-The result are approximations of the weight matrices. With approximations we 
-determined which weights are better to prune. In theory it is said that a weight 
-is pruned, when its value equals zero. But because in practice the weights are 
-almost always non-zero, we have to estimate which weights to prune.
-
-\begin{figure}[!ht]
-\centering 
-\includegraphics[height=4.5cm]{kriterijrezanja.jpg}
-\caption{Possible changes of values of weights. Values before pruning (red 
-circle) and after pruning (blue circle). In a) case, the weight value changes 
-sign, b) moves closer to zero and c) moves away from zero.}
-\label{f:spremembeutezi}
+\end{minipage}
 \end{figure}
-In figure~\ref{f:spremembeutezi} are shown possible changes that can happen 
-after data fusion. A weight can change its sign, can move closer to zero or move 
-away from it. We chose the weights where absolute value move closer to zero for 
-enough amount (for 0.2 in our case) for pruning. We set the chosen weights to 
-zero and keep them at that value. Below is shown a pseudocode of our algorithm.
 
-… Pseudocode …
 
 \section{Experimental setup}
 We evaluated matrix factorization-based brain pruning on MNIST (Mixed National 
