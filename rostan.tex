@@ -11,6 +11,9 @@
 \usepackage{natbib}
 \usepackage{todo}
 \newtheorem{theorem}{Theorem}[section]
+\usepackage{program}
+
+
 
 
 
@@ -93,7 +96,7 @@ factorization-based brain pruning (MFBP).
 
 \section{Related work}
 
-\citet{denil2013predicting} state that only a few weight values for each
+\cite{denil2013predicting} state that only a few weight values for each
 feature are needed to accurately predict the remaining values while many of
 them do not need to be learned at all. They exploited the fact that the weights
 in learned networks tend to be sparse and structured. Another
@@ -187,13 +190,14 @@ tri-factorization}
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=.8\linewidth]{globokamreza2_edited.jpg}
+\includegraphics[width=.9\linewidth]{globokamreza2.jpg}
 
 \captionof{figure}{Deep neural network with dense connected layers. Relation
 matrix $W_{i,j}$ stores the weights of connections between neurons at layer $i$
 and $j$.}
-\todo{Edit figure to what sketched in current version. Write W (for weights)
-instead of R in figure.}
+
+%\todo{Edit figure to what sketched in current version. Write W (for weights)
+%instead of R in figure.}
 
 \label{f:globokamreza}
 
@@ -233,16 +237,16 @@ hidden layer.
 
 \begin{theorem}\label{t:2}
 Simultaneous tri-factorization of multiple matrices simultaneously 
-factorize all available relation matrices $R_{ij}$ into $G_i \in \Re^{m \times 
-k}$, $G_j \in \Re^{n \times h}$ and $S \in \Re^{k \times h}$ and regularize 
+factorize all available relation matrices $W_{ij}$ into $G_i \in \Re^{m \times 
+k}$, $G_j \in \Re^{n \times h}$ and $S_{ij} \in \Re^{k \times h}$ and regularize 
 their approximations through constrained matrices $\theta_i$ and $\theta_j$, 
-such that $R_{ij} \approx G_iS_{ij}G_j^T$~\cite{zitnik2015data}~\ref{f:mf2}.
+such that $W_{ij} \approx G_iS_{ij}G_j^T$~\cite{zitnik2015data}~\ref{f:mf2}.
 \end{theorem} 
 
 The theorem of simultaneous matrix tri-factorization~\ref{t:2}. We can reduce
-the number of nodes (parameters) in network as long as the number of parameters
-in $G_i$ and $G_j$ is less than the number of parameters in $X$. If we would
-like to reduce the number of parameters in $X$ by a fraction of
+the number of neurons (parameters) in network as long as the number of parameters
+in $G_i$ and $G_j$ is less than the number of parameters in $W_{ij}$. If we would
+like to reduce the number of parameters in $W_{ij}$ by a fraction of
 $p$~\cite{sainath2013low}, we require the equation~\ref{eq:1} to hold.
 
 \begin{equation} \label{eq:1}
@@ -261,17 +265,55 @@ general equation for the entire network.}
 \end{figure}
 
 
-\newpage
+% \newpage
 
 The pruning procedure is defined in Algorithm~\ref{alg:MFBP}.
 
-\todo{Add an algorithm for the pruning procedure, which includes also initial
-training, and refinement of parameters after each pruning iteration.}
+%\todo{Add an algorithm for the pruning procedure, which includes also initial
+%training, and refinement of parameters after each pruning iteration.}
 
-In a figure~\ref{f:globokamreza} is shown a neural network with two hidden
+%\clearpage
+\begin{small}
+\label{alg:MFBP}
+\begin{program}
+\mbox{\textbf{Matrix factorization based brain pruning.}}
+\mbox{\textbf{\# Initial training.}}
+  num\_of\_hidden\_neurons = (num\_of\_attributes + num\_of\_classes) * 2 / 3 \# = 529
+  num\_of\_hidden\_layers = 2 \# = 4
+  \FOR i:=0 \TO 100 \DO 
+     train(trX, trY); 
+  \OD
+\mbox{\textbf{\# Simultaneous matrix tri-factorization.}}
+  rank = num\_of\_classes / 2 \# = 5   
+  \FOR i:=0 \TO num\_of\_weight\_matrices + 1 \DO
+     t[i] = fusion.ObjectType('Type ' + str(i), rank)
+  \OD
+  \FOR i:=0 \TO num\_of\_weight\_matrices \DO
+     relations.add(fusion.Relation(weight\_matrix[i].get\_value(), t[i], t[i+1])) 
+  \OD
+  fusionGraph = fusion.FusionGraph()
+  fusionGraph.add\_relations\_from(relations)
+  fuser = fusion.Dfmf()
+  fuser.fuse(fusionGraph) 
+\mbox{\textbf{\# Compare original weights with approximated and prune.}}
+  \FOR i:=0 \TO num\_of\_weight\_matrices \DO
+  	  c[i] = abs(fuser.complete(relations[i])) - abs(weight\_matrix[i].get\_value()) < threshold
+      weight\_matrix[i].set\_value(weight\_matrix[i].get\_value() * c[i])
+  \OD
+\mbox{\textbf{\# Fine-tuning.}}
+  \FOR i:=0 \TO 50 \DO 
+     train(trX, trY); 
+     \FOR i:=0 \TO num\_of\_weight\_matrices \DO
+      weight\_matrix[i].set\_value(weight\_matrix[i].get\_value() * c[i])
+     \OD     
+  \OD
+\end{program}
+\end{small}
+
+In a figure~\ref{f:globokamreza} is shown a neural network with hidden
 layers and their relation weight matrices $W_{ij}$ between them. The weight
 matrices are collected from neural network and configured in a matrix of
-relations $W$ as shown in figure~\ref{f:globokamreza}. A block in the $i$-th
+relations $W$. A block in the $i$-th
 row and $j$-th column ($W_{ij}$) of matrix $W$ represents the relationship
 between object type $\xi_i$ and $\xi_j$. In case of a neural network, these
 represent neurons at layers $i$ and $j$, respectively. The block matrix $W$ is
@@ -292,9 +334,9 @@ With approximations we determined which weights are better to prune. We pruned
 weights which hold followed criteria and were forced to a zero value to be
 considered as pruned:
 
-$abs(original_weight) - abs(approximated_weight) < threshold$
+$(abs(originalWeight) - abs(approximatedWeight)) >= threshold$
 
-\todo{This seems wrong and counterintuitive. Is it really so?}
+%\todo{This seems wrong and counterintuitive. Is it really so?}
 
 %\begin{figure}[!ht]
 %\centering 
@@ -356,38 +398,90 @@ tri-factorization is available in a python library
 Scikit-fusion~\cite{zitnik2015data}. To measure our results, we used a machine
 learning library Scikit-learn~\cite{scikit-learn}.
 
-To estimate and analyze our results, we trained and tested four neural
-networks: ordinary neural network with two hidden layers without pruning,
-ordinary neural network with two hidden layers with pruning, deep neural
-network with five hidden layers without pruning and another deep neural network
-with five hidden layers with pruning. Every neural network had 60 iterations
-available to learn. The non-pruned networks learned on 60 iterations where
-every iteration had 50~000 train instances packed in mini-batches of 128. The
-pruned network had 40 iterations to learn without pruning. The other 20
-iterations consisted of every second iteration of pruning (overall 10
-iterations of pruning) and another half of iterations for fine-tuning.
-Fine-tuning was used to adapt the non-pruned weights which have been affected
-with pruning, in other words, to recover the non-pruned weight values which
-have been biased by the pruned weights before pruning. In this case there were
-also all 50~000 train instances available at every iteration in mini-batches.
+To estimate and analyze our results, we trained and tested six neural networks: 
+three 
+ordinary neural network with two hidden layers and three deep neural network 
+with four 
+hidden layers. Every neural network had 100 iterations available to learn. After 
+learning, the simultaneous matrix tri-factorization was performed to prune 
+weights. After, 50 iterations of fine-tuning was used to adapt the non-pruned 
+weights to recover the non-pruned weight values which have been biased by the 
+pruned weights before 
+pruning. 
 
 \section{Results}
-The reported results are measured with area under ROC curve (AC) on test set 
-and shown in figure~\ref{f:results}. The model size compression rate in \% 
-results are coming...
+The reported results are measured with area under ROC curve (AUC) on test set 
+and shown in figures~\ref{f:results1} and~\ref{f:results2}. 
 
-\begin{figure}[!ht]
+\begin{figure}
 \centering
-\includegraphics[width=10cm]{mnist2.png}
-\caption{AUC results of neural networks. With pruned neural networks, the 
-pruning starts at 40th iteration.}
-\label{f:results}
+\begin{minipage}{.49\textwidth}
+\centering
+\includegraphics[width=\linewidth]{mnist2.png}
+\captionof{figure}{AUC results of six networks}
+\label{f:results1}
+\end{minipage}
+\hfill
+\begin{minipage}{.49\textwidth}
+\centering
+\includegraphics[width=\linewidth]{mnist.png}
+\captionof{figure}{Closer view of results}
+\label{f:results2}
+\end{minipage}
 \end{figure}
 
 
+The results show six networks with two types (with two hidden layers and with 
+four hidden layers). Every type of network had different amount of pruning. 
+Pruning happened at 100th iteration as is visible in results where the AUC 
+results were measured right after pruning and showed the drop of accuracy. Next 
+50 iterations were meant for fine-tuning, where the non-pruned weights were able 
+to recover and adapt. The pruned weights were forced to stay at zero (to keep 
+them pruned), so to keep the dimensionality reduction. From results we can see 
+that the network which had less amount of pruning were able to recover the 
+accuracy fast (after few iterations). With higher amount of pruning, 
+the non-pruned weights needed more iterations to recover to the accuracy before 
+pruning, meanwhile the network with two hidden layers, which was pruned the most 
+(for 93,83~\%) were not able to recover as the amount of pruning was too high.
+From table~\ref{t:results} we can see that in most cases, the pruning resulted
+in higher accuracy than before pruning. 
+
+
+\begin{table}[!ht]
+\centering
+\begin{tabular}{l|l|l|p{3cm}|}
+\cline{2-4}
+ & max AUC score BP & max AUC score AP & a first AUC AP \textgreater= max AUC BP \\ \hline
+\multicolumn{1}{|l|}{NN\_2HL pruned: 73.77\%} & 0.99272 at 72-iter & 0.99289 at 145-iter & 0.99275 at 112-iter \\ \hline
+\multicolumn{1}{|l|}{NN\_2HL pruned: 83.56\%} & 0.99291 at 88-iter & 0.99275 at 149-iter & / \\ \hline
+\multicolumn{1}{|l|}{NN\_2HL pruned: 93.83\%} & 0.99293 at 83-iter & 0.99068 at 149-iter & / \\ \hline
+\multicolumn{1}{|l|}{NN\_4HL pruned: 66.3\%} & 0.99236 at 97-iter & 0.99284 at 129-iter & 0.99241 at 104-iter \\ \hline
+\multicolumn{1}{|l|}{NN\_4HL pruned: 78.62\%} & 0.99236 at 78-iter & 0.99284 at 147-iter & 0.99249 at 146-iter \\ \hline
+\multicolumn{1}{|l|}{NN\_4HL pruned: 89.8\%} & 0.99201 at 99 iter & 0.99223 at 137-iter & 0.99208 at 128-iter \\ \hline
+\end{tabular}
+\caption{Before pruning - BP and after pruning - AP.}
+\label{t:results}
+\end{table}
+
 
 \section{Discussion and conclusion}
-To be written...
+In this paper, we have addressed the size complexity of applying simultaneous 
+matrix tri-factorization to compress feed-forward neural network with two and 
+four hidden layers. Our work studied how to use simultaneous matrix 
+tri-factorization to compress a significant amount of artificial neural network 
+and deep neural network in order to save storage without the loss of accuracy. 
+We applied simultaneous matrix tri-factorization on weight matrices and use 
+approximated weights to prune the weights which values moved closer to zero for 
+the greatest amount. This allowed us to reduce the number of parameters of 
+networks between 60-90~\% without sacrificing the accuracy or sacrificing for 
+the negligible amount. The reduction of the parameters of neural network for 
+higher amount required more iterations of fine-tuning to recover the non-pruned 
+weights. 
+
+For future work, we will apply simultaneous matrix tri-factorization on 
+convolutional neural networks.
+
+
 
 
 \subsubsection*{Acknowledgments}
