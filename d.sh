@@ -1,5 +1,5 @@
-n="clanek.tex"
-o="clanek_20160209.tex"
+n="rostan.tex"
+o="rostan_20160209.tex"
 
 d="diff_${n%.tex}"
 nn=${n%.tex}
