@@ -231,9 +231,6 @@ $W_{ij}$ present weight matrices of neural network. Configuration is set on
 diagonal because the neighbour weight matrices share the dimension from shared
 hidden layer.
 
-%\todo{Add an algorithm for the prunning procedure, which includes also initial
-%training, and refinement of parameters after each prunning iteration.}
-
 \begin{theorem}\label{t:2}
 Simultaneous tri-factorization of multiple matrices simultaneously 
 factorize all available relation matrices $R_{ij}$ into $G_i \in \Re^{m \times 
@@ -265,6 +262,11 @@ general equation for the entire network.}
 
 
 \newpage
+
+The pruning procedure is defined in Algorithm~\ref{alg:MFBP}.
+
+\todo{Add an algorithm for the pruning procedure, which includes also initial
+training, and refinement of parameters after each pruning iteration.}
 
 In a figure~\ref{f:globokamreza} is shown a neural network with two hidden
 layers and their relation weight matrices $W_{ij}$ between them. The weight
