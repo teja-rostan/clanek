@@ -12,7 +12,7 @@
 \usepackage{todo}
 \newtheorem{theorem}{Theorem}[section]
 \usepackage{amsmath}
-\usepackage{program}
+\usepackage[]{algorithm2e}
 
 
 
@@ -167,7 +167,8 @@ practice.
 %size compression, fewer approaches focused on reducing the time complexity. One 
 %of the earlier approaches of reducing the 
 %time complexity is FFT algorithm~\cite{mathieu2013fast} which by computing the 
-%Fourier transforms of the matrices in each set efficiently performs convolutions 
+%Fourier transforms of the matrices in each set efficiently performs 
+convolutions 
 %as pairwise products. Main disadvantage of this approach is that in current 
 %implementation of the FFT algorithm, input images which
 %are not a power of 2 must be padded to the next highest power. In newer 
@@ -271,30 +272,35 @@ must-link and cannot-link constraints~\cite{zitnik2015data}.
 \begin{equation} \label{eq:1}
 W = 
 \begin{bmatrix} 
-& &W_{I,1} & & & \\
+\begin{smallmatrix}
+& &W_{1,2} & & & \\
 & & &\ddots & & \\ 
-& & & &W_{i-1,i} & \\ 
-& & & & &W_{i,O} 
+& & & &W_{L-2,L-1} & \\ 
+& & & & &W_{L-1,L} 
+\end{smallmatrix}
 \end{bmatrix} 
 \approx 
 \begin{bmatrix} 
-& &G_IS_{I,1}G_1^T & & & \\ 
+\begin{smallmatrix}
+& &G_1S_{1,2}G_2^T & & & \\ 
 & & &\ddots & & \\ 
-& & & &G_{i-1}S_{i-1,i}G_i^T & \\ 
-& & & & &G_iS_{i,O}G_O^T 
+& & & &G_{L-2}S_{L-2,L-1}G_{L-1}^T & \\ 
+& & & & &G_{L-1}S_{L-1,L}G_L^T 
+\end{smallmatrix}
 \end{bmatrix}
 \end{equation}
 
 
-
 We can reduce
-the number of neurons (parameters) in network as long as the number of parameters
-in $G_i$ and $G_j$ is less than the number of parameters in $W_{ij}$. If we would
+the number of neurons (parameters) in network as long as the number of 
+parameters
+in $G_i$ and $G_j$ is less than the number of parameters in $W_{ij}$. If we 
+would
 like to reduce the number of parameters in $W$ by a fraction of
 $p$~\cite{sainath2013low}, we require the equation~\ref{eq:2} to hold.
 
 \begin{equation} \label{eq:2}
- m_Ik_I + k_Ih_1 + h_1n_1 + ... + m_ik_i + k_ih_O + h_On_O < p(m_In_1 + ... + m_in_O)
+ m_1k_1 + k_1h_2 + h_2n_2 + ... + m_{L-1}k_{L-1} + k_{L-1}h_L + h_Ln_L < p(m_1n_2 + ... + m_{L-1}n_L)
 \end{equation}
 
 %\todo{This is valid for one matrix (i.e., layer in the network). Write a
@@ -312,47 +318,69 @@ $(abs(originalWeight) - abs(approximatedWeight)) >= threshold$
 % \newpage
 
 The pruning procedure is defined in Algorithm~\ref{alg:MFBP}.
+The code of pruning modern neural network with simultaneous matrix 
+tri-factorization is available online~\cite{code}.
 
 %\todo{Add an algorithm for the pruning procedure, which includes also initial
 %training, and refinement of parameters after each pruning iteration.}
 
-%\clearpage
-\begin{small}
+\begin{algorithm}[H]
 \label{alg:MFBP}
-\begin{program}
-\mbox{\textbf{Matrix factorization based brain pruning.}}
-\mbox{\textbf{\# Initial training.}}
-  num\_of\_hidden\_neurons = (num\_of\_attributes + num\_of\_classes) * 2 / 3 \# = 529
-  num\_of\_hidden\_layers = 2 \# = 4
-  \FOR i:=0 \TO 100 \DO 
-     train(trX, trY); 
-  \OD
-\mbox{\textbf{\# Simultaneous matrix tri-factorization.}}
-  rank = num\_of\_classes / 2 \# = 5   
-  \FOR i:=0 \TO num\_of\_weight\_matrices + 1 \DO
-     t[i] = fusion.ObjectType('Type ' + str(i), rank)
-  \OD
-  \FOR i:=0 \TO num\_of\_weight\_matrices \DO
-     relations.add(fusion.Relation(weight\_matrix[i].get\_value(), t[i], t[i+1])) 
-  \OD
-  fusionGraph = fusion.FusionGraph()
-  fusionGraph.add\_relations\_from(relations)
-  fuser = fusion.Dfmf()
-  fuser.fuse(fusionGraph) 
-\mbox{\textbf{\# Compare original weights with approximated and prune.}}
-  \FOR i:=0 \TO num\_of\_weight\_matrices \DO
-  	  c[i] = abs(fuser.complete(relations[i])) - abs(weight\_matrix[i].get\_value()) < threshold
-      weight\_matrix[i].set\_value(weight\_matrix[i].get\_value() * c[i])
-  \OD
-\mbox{\textbf{\# Fine-tuning.}}
-  \FOR i:=0 \TO 50 \DO 
-     train(trX, trY); 
-     \FOR i:=0 \TO num\_of\_weight\_matrices \DO
-      weight\_matrix[i].set\_value(weight\_matrix[i].get\_value() * c[i])
-     \OD     
-  \OD
-\end{program}
-\end{small}
+ \KwData{weight matrices $W$ of learned neural network}
+ \KwResult{pruned weight matrices $Wp$}
+ \For{every weight matrix $W$}{
+  make relations\;
+  add to relations graph $R$;
+ }
+ apply simultaneous matrix tri-factorization on relations graph $R$\;
+  \For{every weight matrix $W$}{
+    $Wp_i$ = $W_i$ * (absolute($W_i$) - absolute($R_i$) $<$ threshold)
+ }
+ \caption{Pruning neural network with simultaneous matrix tri-factorization.}
+ 
+\end{algorithm}
+	
+
+%\clearpage
+%\begin{small}
+%\label{alg:MFBP}
+%\begin{program}
+%\mbox{\textbf{Matrix factorization based brain pruning.}}
+%\mbox{\textbf{\# Initial training.}}
+%  num\_of\_hidden\_neurons = (num\_of\_attributes + num\_of\_classes) * 2 / 3 \# 
+%= 529
+%  num\_of\_hidden\_layers = 2 \# = 4
+%  \FOR i:=0 \TO 100 \DO 
+%     train(trX, trY); 
+%  \OD
+%\mbox{\textbf{\# Simultaneous matrix tri-factorization.}}
+%  rank = num\_of\_classes / 2 \# = 5   
+%  \FOR i:=0 \TO num\_of\_weight\_matrices + 1 \DO
+%     t[i] = fusion.ObjectType('Type ' + str(i), rank)
+%  \OD
+%  \FOR i:=0 \TO num\_of\_weight\_matrices \DO
+%     relations.add(fusion.Relation(weight\_matrix[i].get\_value(), t[i], 
+%t[i+1])) 
+%  \OD
+%  fusionGraph = fusion.FusionGraph()
+%  fusionGraph.add\_relations\_from(relations)
+%  fuser = fusion.Dfmf()
+%  fuser.fuse(fusionGraph) 
+%\mbox{\textbf{\# Compare original weights with approximated and prune.}}
+%  \FOR i:=0 \TO num\_of\_weight\_matrices \DO
+%  	  c[i] = abs(fuser.complete(relations[i])) - 
+%abs(weight\_matrix[i].get\_value()) < threshold
+%      weight\_matrix[i].set\_value(weight\_matrix[i].get\_value() * c[i])
+%  \OD
+%\mbox{\textbf{\# Fine-tuning.}}
+%  \FOR i:=0 \TO 50 \DO 
+%     train(trX, trY); 
+%     \FOR i:=0 \TO num\_of\_weight\_matrices \DO
+%      weight\_matrix[i].set\_value(weight\_matrix[i].get\_value() * c[i])
+%     \OD     
+%  \OD
+%\end{program}
+%\end{small}
 
 
 %\todo{This seems wrong and counterintuitive. Is it really so?}
@@ -377,83 +405,62 @@ digits have been size-normalized and centered in a fixed-size 28x28 images.
 
 We used a “modern” neural network, presented in~\cite{github}. There are two
 main contributions to a modern neural network. One is changing of activation
-function. Instead of sigmoid function it uses a rectifier (Rectified linear
-unit (ReLU) $f(x) = max(0, x)$, where $x$ is the input to a neuron. What the
-rectifier does is that if the input to a neuron is below zero the activation
-function does nothing. If the input is above zero it does activate. This
+function. Instead of sigmoid function it uses a rectifier (Rectified linear 
+unit (ReLU) $f(x) = max(0, x)$, where $x$ is the input to a neuron. With
+rectifier only the input above zero activates. This
 activation function has been argued to be more biologically
 plausible~\cite{AISTATS2011_GlorotBB11}. It induces the sparsity in the hidden
-neurons. Another advantage of rectifier is that it does not face gradient
-vanishing problem as with sigmoid or tanh function. It has ben also shown that
-can be deep neural networks trained efficiently using rectifier even without
-pre-training. The other contribution is regularizing the model with
-dropout~\cite{srivastava2014dropout}. Dropout is one of the biggest
-improvements in the field of neural networks in recent years as it addresses
+neurons and does not face gradient vanishing problem. Deep neural networks
+can be trained efficiently using rectifier even without pre-training. 
+The other contribution is regularizing the model with
+dropout~\cite{srivastava2014dropout}. It addresses
 the main problem in deep learning that is overfitting. The purpose of dropout
 is to add some noise by “dropping out” a random number of some neuron
-activations in a given layer. By dropping them is meant to set them to zero or
-as in our case to prune them. With every iteration a different random set of
+activations in a given layer. With every iteration a different random set of
 neurons are chosen to drop, therefore it prevents co-adaptation of neurons.
-There was also a change at update rule. Instead of a standard stochastic
+There was also a change of update rule. Instead of a standard stochastic
 gradient descent (SGD) backpropagation method we used RMSprop (A mini-batch
 version of rpop). The idea behind SGD is to approximate the real update step by
-taking the average of the all given instances or as in our case mini batches.
-The problem of SGD is that it is sensitive to outliers which can destroy all
-the gradient information collected before~\cite{erogol}. On the other hand, the
+taking the average of the all given mini batches.
 RMSprop keeps a running average of its recent gradient magnitudes and divides
 the next gradient by this average so that loosely gradient values are
-normalized~\cite{lecture}. RMSprop follows: $MeanSquare(w, t) = 0.9
-MeanSquare(w, t-1) + 0.1 {({\delta E}/{\delta w^{(t)}}}^2$~\cite{lecture}.
-
+normalized~\cite{lecture}. 
 
 To evaluate our experiments, we implemented algorithm on Python with the help
 of Theano~\cite{Bastien-Theano-2012, bergstra+al:2010-scipy}. Theano is a
 Python library that is suitable for building an optimized neural network. We
 chose it as it gives a comprehensive control over neural network formation
 which is suitable for our problem. Another reason we used Theano is because the
-implementation of “modern neural net” described above is available online as
-open source. Data fusion algorithm which performs simultaneous matrix
+implementation of “modern neural net” described above is available at~\cite{github}.
+Data fusion algorithm which performs simultaneous matrix
 tri-factorization is available in a python library
 Scikit-fusion~\cite{zitnik2015data}. To measure our results, we used a machine
 learning library Scikit-learn~\cite{scikit-learn}.
 
-To estimate and analyze our results, we trained and tested six neural networks: 
+To estimate and analyse our results, we trained and tested six neural networks: 
 three 
 ordinary neural network with two hidden layers and three deep neural network 
 with four 
 hidden layers. Every neural network had 100 iterations available to learn. After 
 learning, the simultaneous matrix tri-factorization was performed to prune 
-weights. After, 50 iterations of fine-tuning was used to adapt the non-pruned 
-weights to recover the non-pruned weight values which have been biased by the 
-pruned weights before 
+weights. After, 50 iterations of fine-tuning was used to recover the non-pruned 
+weight values which have been biased by the pruned weights from before 
 pruning. 
 
 \section{Results}
 The reported results are measured with area under ROC curve (AUC) on test set 
-and shown in figures~\ref{f:results1} and~\ref{f:results2}. 
+shown in figure~\ref{f:results}. 
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
-\begin{minipage}{.49\textwidth}
-\centering
-\includegraphics[width=\linewidth]{mnist2.png}
-\captionof{figure}{AUC results of six networks}
-\label{f:results1}
-\end{minipage}
-\hfill
-\begin{minipage}{.49\textwidth}
-\centering
-\includegraphics[width=\linewidth]{mnist.png}
-\captionof{figure}{Closer view of results}
-\label{f:results2}
-\end{minipage}
+\includegraphics[width=0.8\linewidth]{mnist_new.png}
+\captionof{figure}{AUC results of six networks after pruning}
+\label{f:results}
 \end{figure}
-
 
 The results show six networks with two types (with two hidden layers and with 
 four hidden layers). Every type of network had different amount of pruning. 
-Pruning happened at 100th iteration as is visible in results where the AUC 
-results were measured right after pruning and showed the drop of accuracy. Next 
+Pruning happened at 100th. Next 
 50 iterations were meant for fine-tuning, where the non-pruned weights were able 
 to recover and adapt. The pruned weights were forced to stay at zero (to keep 
 them pruned), so to keep the dimensionality reduction. From results we can see 
@@ -470,19 +477,26 @@ in higher accuracy than before pruning.
 \centering
 \begin{tabular}{l|l|l|p{3cm}|}
 \cline{2-4}
- & max AUC score BP & max AUC score AP & a first AUC AP \textgreater= max AUC BP \\ \hline
-\multicolumn{1}{|l|}{NN\_2HL pruned: 73.77\%} & 0.99272 at 72-iter & 0.99289 at 145-iter & 0.99275 at 112-iter \\ \hline
-\multicolumn{1}{|l|}{NN\_2HL pruned: 83.56\%} & 0.99291 at 88-iter & 0.99275 at 149-iter & / \\ \hline
-\multicolumn{1}{|l|}{NN\_2HL pruned: 93.83\%} & 0.99293 at 83-iter & 0.99068 at 149-iter & / \\ \hline
-\multicolumn{1}{|l|}{NN\_4HL pruned: 66.3\%} & 0.99236 at 97-iter & 0.99284 at 129-iter & 0.99241 at 104-iter \\ \hline
-\multicolumn{1}{|l|}{NN\_4HL pruned: 78.62\%} & 0.99236 at 78-iter & 0.99284 at 147-iter & 0.99249 at 146-iter \\ \hline
-\multicolumn{1}{|l|}{NN\_4HL pruned: 89.8\%} & 0.99201 at 99 iter & 0.99223 at 137-iter & 0.99208 at 128-iter \\ \hline
+ & max AUC score BP & max AUC score AP & a first AUC AP \textgreater= max AUC BP 
+\\ \hline
+\multicolumn{1}{|l|}{NN\_2HL pruned: 73.77\%} & 0.99272 at 72-iter & 0.99289 at 
+145-iter & 0.99275 at 112-iter \\ \hline
+\multicolumn{1}{|l|}{NN\_2HL pruned: 83.56\%} & 0.99291 at 88-iter & 0.99275 at 
+149-iter & / \\ \hline
+\multicolumn{1}{|l|}{NN\_2HL pruned: 93.83\%} & 0.99293 at 83-iter & 0.99068 at 
+149-iter & / \\ \hline
+\multicolumn{1}{|l|}{NN\_4HL pruned: 66.3\%} & 0.99236 at 97-iter & 0.99284 at 
+129-iter & 0.99241 at 104-iter \\ \hline
+\multicolumn{1}{|l|}{NN\_4HL pruned: 78.62\%} & 0.99236 at 78-iter & 0.99284 at 
+147-iter & 0.99249 at 146-iter \\ \hline
+\multicolumn{1}{|l|}{NN\_4HL pruned: 89.8\%} & 0.99201 at 99 iter & 0.99223 at 
+137-iter & 0.99208 at 128-iter \\ \hline
 \end{tabular}
-\caption{Before pruning - BP and after pruning - AP.}
+\caption{AUC results from before pruning (BP) and after pruning (AP).}
 \label{t:results}
 \end{table}
 
-
+\newpage 
 \section{Discussion and conclusion}
 In this paper, we have addressed the size complexity of applying simultaneous 
 matrix tri-factorization to compress feed-forward neural network with two and 
@@ -510,6 +524,7 @@ convolutional neural networks.
 \bibliography{literature}
 \bibliographystyle{plain}
 
-\todos
+%\todos
 
 \end{document}
+
